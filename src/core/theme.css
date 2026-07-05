@@ -1,0 +1,26 @@
+:root {
+  --color-primary: #003a03;
+  --color-primary-container: #0d530e;
+  --color-secondary: #2e6b27;
+  --color-secondary-container: #b0f49f;
+  --color-background: #fff9e6;
+  --color-surface-container: #f4eed6;
+  --color-on-surface: #1e1c0e;
+  --color-on-surface-variant: #41493d;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom Utilities Utility */
+.bg-primary-custom { background-color: var(--color-primary) !important; }
+.text-primary-custom { color: var(--color-primary) !important; }
+.bg-surface-custom { background-color: var(--color-surface-container) !important; }
+.bg-secondary-container-custom { background-color: var(--color-secondary-container) !important; }
+.text-variant-custom { color: var(--color-on-surface-variant) !important; }
+
+.rounded-3xl { border-radius: 1.5rem !important; }
+.rounded-full-custom { border-radius: 50rem !important; }
