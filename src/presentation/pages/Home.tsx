@@ -1,36 +1,460 @@
-import { Layout } from '../components/Layout';
+import { useState } from 'react';
 
-export function Home() {
+// MOCKUP VISUAL DASHBOARD
+const LiveDashboardMockup = () => {
   return (
-    <Layout>
-      <section className="py-5 position-relative overflow-hidden" style={{ background: 'radial-gradient(at 0% 0%, rgba(172, 245, 157, 0.15) 0, transparent 50%)' }}>
-        <div className="container py-4">
+    <div className="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white position-relative" style={{ minHeight: '450px', zIndex: 2 }}>
+      {/* Tombol Kontrol Browser */}
+      <div className="position-absolute top-0 start-0 m-4 d-flex gap-2">
+        <span className="badge rounded-circle p-1" style={{ width: '12px', height: '12px', backgroundColor: '#FF5F56' }}></span>
+        <span className="badge rounded-circle p-1" style={{ width: '12px', height: '12px', backgroundColor: '#FFBD2E' }}></span>
+        <span className="badge rounded-circle p-1" style={{ width: '12px', height: '12px', backgroundColor: '#27C93F' }}></span>
+      </div>
+
+      {/* Badge Live Dashboard */}
+      <div className="position-absolute top-0 end-0 m-4 d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill border">
+        <span className="spinner-grow spinner-grow-sm text-success" role="status" style={{ width: '8px', height: '8px' }}></span>
+        <span className="text-success fw-bold" style={{ fontSize: '11px', letterSpacing: '1px' }}>LIVE DASHBOARD</span>
+      </div>
+
+      {/* Isi Utama Dashboard */}
+      <div className="text-start mt-4">
+        <p className="text-muted mb-1 small fw-medium">Total Pendapatan</p>
+        <h2 className="display-6 fw-bold mb-2 text-dark" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          Rp 84.250.000
+        </h2>
+        <p className="text-success small fw-semibold mb-0">
+          <i className="bi bi-arrow-up-short"></i>+12.5% dari bulan lalu
+        </p>
+
+        {/* Filter Dropdown Bulan Ini */}
+        <button className="btn btn-sm btn-outline-secondary px-3 py-1 position-absolute rounded-pill bg-white shadow-sm" style={{ top: '100px', right: '30px', fontSize: '12px' }}>
+          Bulan Ini <i className="bi bi-chevron-down ms-1"></i>
+        </button>
+      </div>
+
+      {/* Grid Statistik Pendukung */}
+      <div className="row g-3 mt-4 text-start">
+        <div className="col-4">
+          <div className="p-3 rounded-3 border-0 shadow-sm" style={{ backgroundColor: '#FCF9EE' }}>
+            <h5 className="fw-bold mb-1 text-dark">1.284</h5>
+            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Transaksi</p>
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="p-3 rounded-3 border-0 shadow-sm" style={{ backgroundColor: '#FCF9EE' }}>
+            <h5 className="fw-bold mb-1 text-dark">98.7%</h5>
+            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Sukses</p>
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="p-3 rounded-3 border-0 shadow-sm" style={{ backgroundColor: '#FCF9EE' }}>
+            <h5 className="fw-bold mb-1 text-dark">16</h5>
+            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Pending</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Daftar Transaksi Terbaru */}
+      <div className="mt-4 text-start">
+        <p className="fw-bold text-muted mb-3" style={{ fontSize: '11px', letterSpacing: '1px' }}>TRANSAKSI TERBARU</p>
+        
+        {/* GoPay */}
+        <div className="d-flex align-items-center gap-3 border-bottom pb-3 mb-3">
+          <div className="rounded-3 d-flex align-items-center justify-content-center text-success" style={{ width: '40px', height: '40px', backgroundColor: '#E8F5E9' }}>
+            <i className="bi bi-wallet2 fs-5"></i>
+          </div>
+          <div>
+            <h6 className="fw-bold mb-0 text-dark" style={{ fontSize: '14px' }}>GoPay</h6>
+            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>2 menit lalu</p>
+          </div>
+          <div className="ms-auto text-end">
+            <h6 className="fw-bold text-success mb-0" style={{ fontSize: '14px' }}>+Rp 150.000</h6>
+            <span className="badge text-success bg-success-subtle border border-success-subtle" style={{ fontSize: '9px' }}>SUKSES</span>
+          </div>
+        </div>
+
+        {/* Transfer BCA */}
+        <div className="d-flex align-items-center gap-3">
+          <div className="rounded-3 d-flex align-items-center justify-content-center text-primary" style={{ width: '40px', height: '40px', backgroundColor: '#E3F2FD' }}>
+            <i className="bi bi-bank fs-5"></i>
+          </div>
+          <div>
+            <h6 className="fw-bold mb-0 text-dark" style={{ fontSize: '14px' }}>Transfer BCA</h6>
+            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>8 menit lalu</p>
+          </div>
+          <div className="ms-auto text-end">
+            <h6 className="fw-bold text-success mb-0" style={{ fontSize: '14px' }}>+Rp 540.000</h6>
+            <span className="badge text-success bg-success-subtle border border-success-subtle" style={{ fontSize: '9px' }}>SUKSES</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// KOMPONEN UTAMA BERANDA (Dipanggil oleh App.tsx)
+export function Home() {
+  const [activeTab, setActiveTab] = useState('Beranda');
+
+  return (
+    <div style={{ backgroundColor: '#FCF9EE', fontFamily: "'DM Sans', sans-serif" }}>
+      
+{/* 1. NAVIGATION BAR */}
+      <nav className="navbar navbar-expand-lg sticky-top py-3 bg-white border-bottom shadow-sm">
+        <div className="container">
+          <a className="navbar-brand d-flex align-items-center gap-2" href="#" style={{ textDecoration: 'none' }}>
+            {/* Kotak Logo Hijau Gelap Sesuai image_38261d.png */}
+            <div className="rounded-3 d-flex align-items-center justify-content-center text-white shadow-sm" style={{ width: '42px', height: '42px', backgroundColor: '#013a11' }}>
+              <i className="bi bi-bank2 fs-5"></i>
+            </div>
+            {/* Teks Brand Khas PastiPay */}
+            <span className="fw-bold fs-3 ms-1" style={{ color: '#013a11', fontFamily: "'Poppins', 'Segoe UI', sans-serif", letterSpacing: '-0.5px' }}>PastiPay</span>
+          </a>
+
+          <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Nav Menu Kapsul Tengah */}
+          <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <div className="d-flex align-items-center gap-1 p-1 rounded-pill my-3 my-lg-0" style={{ backgroundColor: '#FCF9EE', border: '1px solid #E2E8F0' }}>
+              {['Beranda', 'Biaya', 'Kontak Kami'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`btn rounded-pill px-4 py-2 border-0 fw-medium text-dark ${activeTab === tab ? 'bg-white shadow-sm' : ''}`}
+                  style={{ fontSize: '14px', transition: 'all 0.2s' }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Action Buttons Kanan */}
+          <div className="d-flex align-items-center gap-3">
+            <a href="#" className="btn btn-link text-decoration-none fw-semibold text-dark" style={{ fontSize: '15px' }}>Masuk</a>
+            <a href="#" className="btn rounded-pill px-4 text-white fw-medium border-0" style={{ backgroundColor: '#013a11', fontSize: '15px' }}>Daftar Sekarang</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* 2. HERO SECTION */}
+      <section className="py-5 position-relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(243,240,223,0.5) 0%, rgba(252,249,238,1) 100%)' }}>
+        <div className="container">
           <div className="row align-items-center g-5">
-            <div className="col-lg-6">
-              <span className="badge bg-secondary-container-custom text-success px-3 py-2 rounded-pill mb-3">TERLISENSI & DIAWASI OLEH BI</span>
-              <h1 className="display-4 fw-extrabold text-primary-custom mb-3">
-                Payment Gateway <br /><span className="text-success">Terbaik</span> untuk Bisnis Anda
+            {/* Kolom Kiri: Teks */}
+            <div className="col-lg-6 text-start">
+              <span className="badge rounded-pill px-3 py-2 text-success fw-bold border mb-4" style={{ backgroundColor: '#E8F5E9', fontSize: '12px', letterSpacing: '0.5px' }}>
+                <i className="bi bi-shield-check me-2"></i>TERLISENSI & DIAWASI OLEH BI
+              </span>
+              
+              <h1 className="display-4 fw-bold mb-4" style={{ color: '#0D530E', fontFamily: 'Poppins, sans-serif', lineHeight: '1.2' }}>
+                Payment Gateway Terbaik untuk Bisnis Online Anda
               </h1>
-              <p className="lead text-variant-custom mb-4">Terima pembayaran lebih cepat, aman, dan mudah dengan solusi lokal terintegrasi.</p>
-              <div className="d-flex gap-3">
-                <button className="btn bg-primary-custom text-white btn-lg px-4 rounded-xl">Daftar Sekarang</button>
-                <button className="btn btn-outline-success btn-lg px-4 rounded-xl">Hubungi Sales</button>
+              
+              <p className="lead text-muted mb-5" style={{ fontSize: '18px', lineHeight: '1.6' }}>
+                Terima pembayaran lebih cepat, aman, dan mudah dengan solusi payment gateway lokal Indonesia. Dukung 20+ metode pembayaran dalam satu platform.
+              </p>
+
+              <div className="d-flex flex-wrap gap-3 mb-5">
+                <a href="#" className="btn btn-lg rounded-pill px-4 text-white fw-semibold border-0 d-flex align-items-center gap-2" style={{ backgroundColor: '#0D530E', fontSize: '16px' }}>
+                  Daftar Sekarang <i className="bi bi-arrow-right"></i>
+                </a>
+                <a href="#" className="btn btn-lg btn-outline-dark rounded-pill px-4 fw-semibold" style={{ fontSize: '16px' }}>
+                  Hubungi Sales
+                </a>
+              </div>
+
+              {/* Baris Statistik Terpadu */}
+              <div className="row g-4 pt-4 border-top">
+                <div className="col-4">
+                  <h4 className="fw-bold mb-0 text-dark">10.000+</h4>
+                  <p className="text-muted small mb-0">Merchant Aktif</p>
+                </div>
+                <div className="col-4">
+                  <h4 className="fw-bold mb-0 text-dark">Rp 2T+</h4>
+                  <p className="text-muted small mb-0">Volume Transaksi</p>
+                </div>
+                <div className="col-4">
+                  <h4 className="fw-bold mb-0 text-dark">99%</h4>
+                  <p className="text-muted small mb-0">Uptime Service</p>
+                </div>
               </div>
             </div>
-            <div className="col-lg-6">
-              {/* Statis Live Dashboard Card */}
-              <div className="bg-white p-4 rounded-3xl shadow border">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <div className="d-flex gap-1"><span className="p-1 bg-danger rounded-circle"></span><span className="p-1 bg-warning rounded-circle"></span></div>
-                  <span className="badge bg-primary text-white">Live Dashboard</span>
+
+            {/* Kolom Kanan: Visual Live Dashboard */}
+            <div className="col-lg-6 text-center position-relative">
+              <div className="position-absolute translate-middle-y top-50 start-50 rounded-circle" style={{ width: '450px', height: '450px', background: 'radial-gradient(circle, rgba(48, 109, 41, 0.1) 0%, transparent 70%)', zIndex: 0 }}></div>
+              <LiveDashboardMockup />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. BRAND PARTNERS ROW */}
+      <section className="py-4 bg-white border-y">
+        <div className="container text-center">
+          <p className="text-muted small fw-bold text-uppercase mb-4" style={{ letterSpacing: '1px' }}>Menerima Pembayaran Dari Berbagai Layanan</p>
+          <div className="d-flex flex-wrap justify-content-center align-items-center gap-5 opacity-75">
+            <span className="fw-bold text-muted fs-4">QRIS</span>
+            <span className="fw-bold text-muted fs-4">BCA</span>
+            <span className="fw-bold text-muted fs-4">Mandiri</span>
+            <span className="fw-bold text-muted fs-4">BNI</span>
+            <span className="fw-bold text-muted fs-4">ShopeePay</span>
+            <span className="fw-bold text-muted fs-4">GoPay</span>
+            <span className="fw-bold text-muted fs-4">DLL</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. FEATURE GRID 1 ("Semua yang Anda Butuhkan") */}
+      <section className="py-5 bg-light">
+        <div className="container py-5">
+          <div className="text-center mb-5 mx-auto" style={{ maxWidth: '700px' }}>
+            <span className="badge rounded-pill px-3 py-2 text-success fw-bold border mb-3" style={{ backgroundColor: '#E8F5E9', fontSize: '11px' }}>FITUR UTAMA</span>
+            <h2 className="display-5 fw-bold mb-3" style={{ color: '#0D530E', fontFamily: 'Poppins' }}>Semua yang Anda Butuhkan</h2>
+            <p className="text-muted fs-5">Kelola seluruh transaksi bisnis Anda dengan solusi payment gateway terbaik dari kami.</p>
+          </div>
+
+          <div className="row g-4">
+            {/* Fitur 1 */}
+            <div className="col-md-4 text-start">
+              <div className="card h-100 p-4 border-0 shadow-sm rounded-4 bg-white">
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '50px', height: '50px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-wallet fs-4"></i>
                 </div>
-                <p className="text-muted small mb-1">Total Pendapatan</p>
-                <h3 className="fw-bold text-primary-custom">Rp 84.250.000</h3>
+                <h4 className="fw-bold mb-3 text-dark">Ekspansi Pembayaran</h4>
+                <p className="text-muted mb-0">Terima pembayaran dari berbagai metode lokal, e-wallet, bank transfer, dan kartu kredit secara global.</p>
+              </div>
+            </div>
+
+            {/* Fitur 2 */}
+            <div className="col-md-4 text-start">
+              <div className="card h-100 p-4 border-0 shadow-sm rounded-4 bg-white">
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '50px', height: '50px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-lightning-charge fs-4"></i>
+                </div>
+                <h4 className="fw-bold mb-3 text-dark">Pendaftaran Mudah</h4>
+                <p className="text-muted mb-0">Proses registrasi instan tanpa ribet, go-live dalam hitungan jam untuk memulai bisnis baru Anda.</p>
+              </div>
+            </div>
+
+            {/* Fitur 3 */}
+            <div className="col-md-4 text-start">
+              <div className="card h-100 p-4 border-0 shadow-sm rounded-4 bg-white">
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '50px', height: '50px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-shield-lock fs-4"></i>
+                </div>
+                <h4 className="fw-bold mb-3 text-dark">Integrasi Keamanan</h4>
+                <p className="text-muted mb-0">Sertifikasi keamanan tingkat internasional (PCI-DSS) untuk menjamin data merchant dan pembeli tetap aman.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </Layout>
+
+      {/* 5. FEATURE GRID 2 ("Kenapa Pilih PastiPay?") */}
+      <section className="py-5 text-white" style={{ backgroundColor: '#0D530E' }}>
+        <div className="container py-5">
+          <div className="text-center mb-5">
+            <span className="badge rounded-pill px-3 py-2 fw-bold border border-white border-opacity-25 mb-3" style={{ backgroundColor: 'rgba(255,255,255,0.1)', fontSize: '11px' }}>TENTANG KAMI</span>
+            <h2 className="display-5 fw-bold mb-3" style={{ fontFamily: 'Poppins' }}>Kenapa Pilih PastiPay?</h2>
+            <p className="text-white-50 fs-5">Platform pembayaran yang andal, cepat, dan siap membantu pertumbuhan omset bisnis Anda.</p>
+          </div>
+
+          <div className="row g-4 text-start">
+            {/* Why 1 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border-0 rounded-4" style={{ backgroundColor: '#164F17' }}>
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '45px', height: '45px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-heart fs-4"></i>
+                </div>
+                <h4 className="fw-bold mb-3 text-white">Kenyamanan Tanpa Batas</h4>
+                <p className="text-white-50 mb-0">Antarmuka dashboard yang ringkas, responsif di HP/Laptop memudahkan Anda memantau keuangan dari mana saja.</p>
+              </div>
+            </div>
+
+            {/* Why 2 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border-0 rounded-4" style={{ backgroundColor: '#164F17' }}>
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '45px', height: '45px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-clock-history fs-4"></i>
+                </div>
+                <h4 className="fw-bold mb-3 text-white">Persetujuan Cepat</h4>
+                <p className="text-white-50 mb-0">Verifikasi dokumen pendaftaran super cepat, sehingga Anda tidak perlu menunda transaksi komersial perdana.</p>
+              </div>
+            </div>
+
+            {/* Why 3 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border-0 rounded-4" style={{ backgroundColor: '#164F17' }}>
+                <div className="rounded-3 d-flex align-items-center justify-content-center text-white mb-4" style={{ width: '45px', height: '45px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-headset fs-4"></i>
+                </div>
+                <h4 className="fw-bold mb-3 text-white">Dukungan Hebat</h4>
+                <p className="text-white-50 mb-0">Tim bantuan CS profesional kami siap mendampingi proses integrasi teknis Anda kapan pun dibutuhkan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. TESTIMONIALS */}
+      <section className="py-5 bg-white">
+        <div className="container py-5">
+          <div className="text-center mb-5">
+            <span className="badge rounded-pill px-3 py-2 text-success fw-bold border mb-3" style={{ backgroundColor: '#E8F5E9', fontSize: '11px' }}>TESTIMONI</span>
+            <h2 className="display-5 fw-bold mb-3" style={{ color: '#0D530E', fontFamily: 'Poppins' }}>Dipercaya Ribuan Merchant</h2>
+          </div>
+
+          <div className="row g-4 text-start">
+            {/* Testimoni 1 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border rounded-4 bg-light shadow-sm d-flex flex-column justify-content-between">
+                <div>
+                  <div className="text-warning mb-3">
+                    <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i>
+                  </div>
+                  <p className="text-dark-50 fst-italic mb-4">"Integrasi API PastiPay sangat praktis. Sistem checkout web kami menjadi jauh lebih mulus, dan pembeli merasa aman."</p>
+                </div>
+                <div className="d-flex align-items-center gap-3 border-top pt-3">
+                  <div className="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px' }}>A</div>
+                  <div>
+                    <h6 className="fw-bold mb-0 text-dark">Andi Hermawan</h6>
+                    <p className="text-muted mb-0 small">CEO TokoHijau</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimoni 2 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border rounded-4 bg-light shadow-sm d-flex flex-column justify-content-between">
+                <div>
+                  <div className="text-warning mb-3">
+                    <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i>
+                  </div>
+                  <p className="text-dark-50 fst-italic mb-4">"Sangat terbantu dengan fitur penarikan otomatis harian. Cashflow bisnis baju online saya sekarang menjadi jauh lebih stabil."</p>
+                </div>
+                <div className="d-flex align-items-center gap-3 border-top pt-3">
+                  <div className="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px' }}>S</div>
+                  <div>
+                    <h6 className="fw-bold mb-0 text-dark">Siti Aminah</h6>
+                    <p className="text-muted mb-0 small">Owner HijabStyle</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimoni 3 */}
+            <div className="col-md-4">
+              <div className="card h-100 p-4 border rounded-4 bg-light shadow-sm d-flex flex-column justify-content-between">
+                <div>
+                  <div className="text-warning mb-3">
+                    <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i>
+                  </div>
+                  <p className="text-dark-50 fst-italic mb-4">"Fitur notifikasi real-time transaksi sukses sangat akurat. CS PastiPay juga responsif membantu saat kami kesulitan coding."</p>
+                </div>
+                <div className="d-flex align-items-center gap-3 border-top pt-3">
+                  <div className="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px' }}>F</div>
+                  <div>
+                    <h6 className="fw-bold mb-0 text-dark">Faisal Basri</h6>
+                    <p className="text-muted mb-0 small">Developer Lead FoodYuk</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. CTA BOX BANNER */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <div className="card border-0 rounded-4 text-white text-center p-5 position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0D530E 0%, #1E4E1F 100%)', boxShadow: '0 15px 30px rgba(13,83,14,0.2)' }}>
+            <div className="position-relative z-3 py-4">
+              <h2 className="display-5 fw-bold mb-3" style={{ fontFamily: 'Poppins' }}>Siap Memajukan Bisnis Anda?</h2>
+              <p className="text-white-50 fs-5 mb-5 mx-auto" style={{ maxWidth: '600px' }}>Gabung sekarang bersama ribuan merchant sukses dan nikmati kemudahan mengelola transaksi bisnis di Indonesia.</p>
+              
+              <div className="d-flex flex-wrap justify-content-center gap-3">
+                <a href="#" className="btn btn-lg bg-white text-success fw-bold rounded-pill px-5" style={{ fontSize: '16px' }}>Daftar Sekarang</a>
+                <a href="#" className="btn btn-lg btn-outline-light rounded-pill px-5" style={{ fontSize: '16px' }}>Hubungi Sales</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. FOOTER */}
+      <footer className="pt-5 pb-4 bg-white text-start border-top">
+        <div className="container pt-4">
+          <div className="row g-5">
+            {/* Deskripsi Brand */}
+            <div className="col-lg-4">
+              <div className="d-flex align-items-center gap-2 mb-3">
+                <div className="rounded d-flex align-items-center justify-content-center text-white" style={{ width: '32px', height: '32px', backgroundColor: '#306D29' }}>
+                  <i className="bi bi-bank2"></i>
+                </div>
+                <span className="fw-bold fs-4" style={{ color: '#0D530E', fontFamily: 'Poppins' }}>PastiPay</span>
+              </div>
+              <p className="text-muted" style={{ fontSize: '15px' }}>
+                PastiPay merupakan solusi payment gateway tepercaya yang menghadirkan inovasi infrastruktur keuangan digital berkualitas bagi seluruh pelaku bisnis online Indonesia.
+              </p>
+            </div>
+
+            {/* Kolom Link 1 */}
+            <div className="col-sm-4 col-lg-2 offset-lg-2">
+              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>Produk</h6>
+              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
+                <li><a href="#" className="text-muted text-decoration-none">Beranda / Aktivasi</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Biaya</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Metode Payment</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Keamanan</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">API Docs</a></li>
+              </ul>
+            </div>
+
+            {/* Kolom Link 2 */}
+            <div className="col-sm-4 col-lg-2">
+              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>Perusahaan</h6>
+              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
+                <li><a href="#" className="text-muted text-decoration-none">Tentang Kami</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Karir</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Pusat Media</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Keberlanjutan</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Mitra Bisnis</a></li>
+              </ul>
+            </div>
+
+            {/* Kolom Link 3 */}
+            <div className="col-sm-4 col-lg-2">
+              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>Dukungan</h6>
+              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
+                <li><a href="#" className="text-muted text-decoration-none">Pusat Bantuan</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Syarat & Ketentuan</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Kebijakan Privasi</a></li>
+                <li><a href="#" className="text-muted text-decoration-none">Status Layanan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="row mt-5 pt-4 border-top text-center text-md-start">
+            <div className="col-md-6 mb-3 mb-md-0">
+              <p className="text-muted mb-0" style={{ fontSize: '14px' }}>© 2026 PastiPay. All rights reserved.</p>
+            </div>
+            <div className="col-md-6 text-md-end">
+              <div className="d-flex justify-content-center justify-content-md-end gap-3" style={{ fontSize: '14px' }}>
+                <a href="#" className="text-muted text-decoration-none">Syarat Layanan</a>
+                <a href="#" className="text-muted text-decoration-none">Kebijakan Data</a>
+                <a href="#" className="text-muted text-decoration-none">Kontak CS</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
   );
 }
