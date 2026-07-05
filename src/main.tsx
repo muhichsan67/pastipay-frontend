@@ -5,6 +5,7 @@ import App from './App.jsx'
 // Import Bootstrap 5
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 // Import Custom Global CSS (Langkah selanjutnya)
 import './core/theme.css'
