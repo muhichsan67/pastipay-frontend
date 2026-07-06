@@ -24,3 +24,415 @@ body {
 
 .rounded-3xl { border-radius: 1.5rem !important; }
 .rounded-full-custom { border-radius: 50rem !important; }
+
+/* Custom Animations: Navigation Links */
+.nav-link-custom {
+  color: var(--color-on-surface-variant) !important;
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  padding: 0.25rem 0.5rem;
+}
+.nav-link-custom::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-primary);
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.nav-link-custom:hover::after,
+.nav-link-custom.active::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+.nav-link-custom:hover {
+  color: var(--color-primary) !important;
+}
+.nav-link-custom.active {
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Custom Animations: Staggered Entrance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pricing-card-container {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Animations: Pricing Cards Hover & Interactive Transition */
+.pricing-card-interactive {
+  cursor: pointer;
+  border: 1px solid #e5e4e7 !important;
+  border-radius: 1.25rem !important;
+  transition: 
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+    background-color 0.4s ease, 
+    color 0.4s ease, 
+    border-color 0.4s ease !important;
+  user-select: none;
+}
+
+/* Inactive Card */
+.pricing-card-interactive.card-inactive {
+  background-color: #ffffff !important;
+  color: var(--color-on-surface) !important;
+  border-left: 4px solid var(--color-primary) !important;
+  z-index: 1;
+}
+.pricing-card-interactive.card-inactive:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 20px 30px rgba(0, 58, 3, 0.08) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Active Card */
+.pricing-card-interactive.card-active {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--color-primary) !important;
+  transform: scale(1.03);
+  z-index: 2;
+}
+.pricing-card-interactive.card-active:hover {
+  transform: scale(1.05) translateY(-8px) !important;
+  box-shadow: 0 25px 35px rgba(0, 58, 3, 0.2) !important;
+}
+
+/* Custom Animations: Badge animation */
+.pricing-card-interactive .card-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  font-size: 11px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.pricing-card-interactive.card-active .card-badge {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Elements color transitions */
+.pricing-card-interactive .card-icon-container {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+.pricing-card-interactive .card-btn {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Custom Animations: Map Pin Bounce */
+@keyframes pinBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce {
+  animation: pinBounce 2s infinite ease-in-out;
+}
+
+/* Custom Animations: Magnetic Button – full fill on hover + text scale */
+.btn-magnetic-primary {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent !important;
+  border: 2px solid var(--color-primary) !important;
+  color: var(--color-primary) !important;
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease !important;
+}
+.btn-magnetic-primary:hover {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(1, 58, 17, 0.3);
+}
+
+.btn-magnetic-outline {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent !important;
+  border: 2px solid rgba(1, 58, 17, 0.3) !important;
+  color: var(--color-primary) !important;
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease !important;
+}
+.btn-magnetic-outline:hover {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(1, 58, 17, 0.3);
+}
+
+.btn-magnetic-light {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent !important;
+  border: 2px solid rgba(255, 255, 255, 0.7) !important;
+  color: #ffffff !important;
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease !important;
+}
+.btn-magnetic-light:hover {
+  background-color: #ffffff !important;
+  color: var(--color-primary) !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.btn-magnetic-outline-light {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease !important;
+}
+.btn-magnetic-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+}
+
+/* ═══════════ PAGE TRANSITION ANIMATION ═══════════ */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: pageEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* ═══════════ NAV LINK CLICK EFFECT ═══════════ */
+.nav-link-custom {
+  transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              transform 0.15s ease,
+              background-color 0.25s ease !important;
+  border-radius: 0.5rem;
+}
+.nav-link-custom:active {
+  transform: scale(0.92);
+  background-color: rgba(0, 58, 3, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — iPhone 12 Pro (390px) & up
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Small screens (max 767px) ─── */
+@media (max-width: 767.98px) {
+
+  /* Global typography scaling */
+  .display-4 {
+    font-size: 1.85rem !important;
+    line-height: 1.2 !important;
+  }
+  .display-5 {
+    font-size: 1.6rem !important;
+  }
+  .lead {
+    font-size: 1rem !important;
+  }
+  h2.fw-bold {
+    font-size: 1.5rem !important;
+  }
+
+  /* Sections: reduce vertical padding */
+  section.py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .container.py-5 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  .container.py-4 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Hero buttons: stack vertically */
+  .d-flex.flex-wrap.gap-3 .btn-lg,
+  .d-flex.flex-wrap.gap-3 .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Stats row on Home hero */
+  .row.g-4.pt-4 .col-4 h4 {
+    font-size: 1.1rem !important;
+  }
+
+  /* Home: Feature cards stack well */
+  .col-md-6.col-lg-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  /* Pricing: card scale reset for mobile */
+  .pricing-card-interactive.card-active {
+    transform: scale(1) !important;
+  }
+  .pricing-card-interactive.card-active:hover {
+    transform: translateY(-4px) !important;
+  }
+
+  /* About: Hero image */
+  .col-lg-6 .position-relative.overflow-hidden.shadow-lg {
+    height: 240px !important;
+    border-radius: 1rem !important;
+  }
+
+  /* About: Cerita Kami images */
+  .col-lg-7 .row.g-3 .col-6 img {
+    height: 180px !important;
+  }
+
+  /* About: Bento stat cards */
+  .col-md-4 .p-4.d-flex.flex-column {
+    height: 160px !important;
+  }
+  .col-md-4 .display-4 {
+    font-size: 2rem !important;
+  }
+
+  /* About: Leadership / Kelompok */
+  .col-lg .text-center.p-4 {
+    padding: 1rem !important;
+  }
+  .col-lg .text-center.p-4 .mx-auto {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 18px !important;
+  }
+
+  /* About: Timeline cards */
+  .col-md-6.col-lg-4 .d-flex.align-items-start .flex-shrink-0 {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 12px !important;
+  }
+
+  /* About: CTA banner */
+  .display-5 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Contact: Form section */
+  .col-lg-5,
+  .col-lg-7 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  /* Contact: Google Maps iframe */
+  .col-lg-7 iframe {
+    height: 250px !important;
+  }
+
+  /* Pricing: Comparison table scroll */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* CTA sections: tighter padding */
+  .p-5 {
+    padding: 1.5rem !important;
+  }
+  .p-5 .py-4 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Button sizing for mobile */
+  .btn-lg {
+    font-size: 14px !important;
+    padding: 0.6rem 1.25rem !important;
+  }
+
+  /* Footer spacing */
+  footer .row.g-4 .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ─── Medium screens / Tablets (768px–991px) ─── */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .display-4 {
+    font-size: 2.5rem !important;
+  }
+  .display-5 {
+    font-size: 2rem !important;
+  }
+
+  /* Pricing cards: 2 columns */
+  .col-lg-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  /* About: images */
+  .col-lg-7 .row.g-3 .col-6 img {
+    height: 240px !important;
+  }
+
+  /* About: Hero image */
+  .col-lg-6 .position-relative.overflow-hidden.shadow-lg {
+    height: 320px !important;
+  }
+}
+
+/* ─── Ensure content doesn't overflow ─── */
+img {
+  max-width: 100%;
+  height: auto;
+}
+.container {
+  overflow-x: hidden;
+}
+

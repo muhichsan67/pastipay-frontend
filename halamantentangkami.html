@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tentang Kami | PastiPay</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#717a6c",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#eae4b4",
+                        "on-tertiary-fixed": "#1f1c01",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#91d883",
+                        "on-surface-variant": "#41493d",
+                        "surface-container": "#f4eed6",
+                        "outline-variant": "#c0c9b9",
+                        "tertiary-container": "#b2ad81",
+                        "on-secondary-fixed-variant": "#135211",
+                        "tertiary": "#63603a",
+                        "on-primary-container": "#81c674",
+                        "surface-variant": "#e8e3cb",
+                        "surface-container-low": "#faf4dc",
+                        "tertiary-fixed-dim": "#cec89a",
+                        "on-secondary-fixed": "#002201",
+                        "on-primary-fixed": "#002201",
+                        "on-tertiary-fixed-variant": "#4b4824",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#b0f49f",
+                        "secondary": "#2e6b27",
+                        "primary-container": "#0d530e",
+                        "inverse-primary": "#91d883",
+                        "secondary-fixed": "#b0f49f",
+                        "surface-bright": "#fff9e6",
+                        "primary": "#003a03",
+                        "on-error-container": "#93000a",
+                        "surface": "#fff9e6",
+                        "inverse-surface": "#333121",
+                        "surface-container-highest": "#e8e3cb",
+                        "secondary-fixed-dim": "#94d786",
+                        "background": "#fff9e6",
+                        "inverse-on-surface": "#f7f1d9",
+                        "surface-tint": "#2a6c25",
+                        "on-secondary-container": "#34712d",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#eee8d1",
+                        "on-surface": "#1e1c0e",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#0c530e",
+                        "surface-dim": "#e0dac3",
+                        "primary-fixed": "#acf59d",
+                        "on-tertiary-container": "#44411e",
+                        "on-background": "#1e1c0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "0.5rem",
+                        "sm": "1rem",
+                        "base": "4px",
+                        "xl": "3rem",
+                        "gutter": "24px",
+                        "md": "1.5rem",
+                        "container-max": "1200px",
+                        "lg": "2rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fff9e6;
+            color: #1e1c0e;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 83, 14, 0.05);
+        }
+
+        .security-accent {
+            border-left: 2px solid #0D530E;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-secondary-container selection:text-on-secondary-container">
+    <!-- TopNavBar -->
+    <nav class="w-full top-0 sticky z-50 bg-surface/95 backdrop-blur-md shadow-sm h-20">
+        <div class="max-w-container-max mx-auto px-gutter flex justify-between items-center h-full">
+            <div class="font-display-lg text-display-lg font-bold text-primary">PastiPay</div>
+            <div class="hidden md:flex gap-lg items-center">
+                <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md"
+                    href="#">Solutions</a>
+                <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md"
+                    href="#">Pricing</a>
+                <a class="text-primary border-b-2 border-primary font-bold pb-1 font-label-md text-label-md"
+                    href="#">About Us</a>
+                <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md"
+                    href="#">Developers</a>
+                <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md"
+                    href="#">Help</a>
+            </div>
+            <div class="flex gap-md">
+                <button
+                    class="hidden sm:block text-on-surface-variant font-medium hover:text-primary px-sm py-xs transition-all active:opacity-80 font-label-md text-label-md">Login</button>
+                <button
+                    class="bg-primary-container text-on-primary px-lg py-xs rounded-full hover:shadow-lg transition-all active:opacity-80 font-label-md text-label-md">Get
+                    Started</button>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <!-- Hero Section -->
+        <section class="relative py-xl md:py-32 overflow-hidden">
+            <div class="max-w-container-max mx-auto px-gutter relative z-10 grid md:grid-cols-2 gap-xl items-center">
+                <div class="space-y-md">
+                    <span
+                        class="inline-block px-sm py-1 bg-secondary-container text-secondary font-label-sm text-label-sm rounded-full">VISI
+                        KAMI</span>
+                    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary leading-tight">
+                        Membangun Masa Depan Pembayaran Digital di Indonesia
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                        PastiPay hadir untuk meredefinisi standar transaksi finansial dengan teknologi mutakhir yang
+                        aman, inklusif, dan mendukung kedaulatan ekonomi digital Indonesia.
+                    </p>
+                </div>
+                <div class="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-xl">
+                    <img class="w-full h-full object-cover"
+                        data-alt="A professional and sleek architectural photograph of a modern financial district in Jakarta at dusk. The scene captures towering skyscrapers reflecting soft orange and teal lights. In the foreground, a subtle digital overlay of flowing green data lines suggests a high-tech payment network. The mood is ambitious, secure, and technologically advanced, aligned with a corporate fintech aesthetic."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvEA93w-DDbBjrRTruE6JRZtWSRXGLBaBrjLN_YWABVEfgkfVE4UuFXr6ORayQerTJi1q6WzxzbeyVTgaNz_pr7Gyl8IAtol4QvAwmpFO0hdFyKRNS8QwbFH134ioDDxuYr6O0Py-zRvuvZWPYCFZohYezJvcjWPfDbuGQ8sgsacIVx5i5LenLaQ1bD-TlePhkEd437TF5FTEnXqBR6NW3h8QD9OjK40Bi3qW0Ib9-gfnufGyYBYNAZR69VdJhC5UTyg2DWWTOK7w" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+                </div>
+            </div>
+            <!-- Decorative Element -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        </section>
+        <!-- Cerita Kami Section (Asymmetric Layout) -->
+        <section class="bg-surface-container-low py-xl">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="grid md:grid-cols-12 gap-lg items-center">
+                    <div class="md:col-span-5 space-y-md">
+                        <h2 class="font-headline-md text-headline-md text-primary">Cerita Kami</h2>
+                        <div class="w-16 h-1 bg-primary rounded-full"></div>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Perjalanan PastiPay dimulai dari sebuah visi sederhana: memastikan setiap pelaku usaha di
+                            Indonesia memiliki akses ke sistem pembayaran yang handal dan aman. Sejak tahun 2018, kami
+                            telah bertransformasi dari sebuah startup lokal menjadi mitra strategis bagi ribuan UMKM dan
+                            korporasi besar.
+                        </p>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Kami percaya bahwa inklusi keuangan adalah kunci pertumbuhan nasional. Dengan menghubungkan
+                            pasar tradisional hingga gedung perkantoran pusat, PastiPay terus berinovasi untuk
+                            menghilangkan hambatan dalam bertransaksi di seluruh nusantara.
+                        </p>
+                    </div>
+                    <div class="md:col-span-7 grid grid-cols-2 gap-sm">
+                        <div class="pt-12">
+                            <img class="w-full h-[300px] object-cover rounded-xl shadow-md"
+                                data-alt="A candid, warm-toned photograph of a traditional Indonesian market merchant smiling while processing a digital payment on a tablet. The background shows vibrant colors of fresh produce and bustling market life, softly blurred. The lighting is natural and inviting, emphasizing the bridge between traditional commerce and modern digital tools. High-quality editorial style."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi7bXJlxIsoIG022KBgd62pQdrMpZhdNQIRZFuIo-ZduD2ozM01u41VkTj5dS-cnm8BpUhZcOab8g0wk483Zz95Bcz12LKlGyFiSF6elk9ZxlKjtMuz4ZHkEkBmSGkcrS6stPFupEB58t7dLV3__WMvclmT6WMTZ5rZCqAJ5yoLWV6jhx7EFs6gzaPUFKkRqSMz6UmmIw7sXZBf5KdVTBc8cecC9P7qrsB9EoqbBKcq9KalWi3ns_a_0kt0l-PnQ6wzGuyrwVQZUs" />
+                        </div>
+                        <div>
+                            <img class="w-full h-[350px] object-cover rounded-xl shadow-md"
+                                data-alt="A sharp, minimalist wide shot of a modern corporate boardroom in a Jakarta skyscraper. Large glass windows reveal a panoramic view of the city skyline during a clear day. The interior is pristine with deep green accents on the furniture, reflecting a high-end financial institution's headquarters. The aesthetic is clean, professional, and established."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2fvkmEXg73Z4N84AK4LCYUL89X7_cskw-R_fPeXOD8E58S44-uRD-jFqMQgd9zFX7HoeB57842XwKMGjQJ9VMQS1OSM_3x81GpwwjokRwgblm42NlHqjuIOy1EL_eIL2uc2et49o6d6rtX-82FDhH5-Yw-z38rTeJRfC0qufHWc1wSnbqWvEPrFg42qsvdZHAkllordiCv99PmJtAA0GVwZ21c_37mNfvHjY0Zv1Ccuo6cphkLSfaZHNRZTjvVRK79r82eSEaiiY" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Statistik Section (Bento Style) -->
+        <section class="py-xl bg-surface">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+                    <div
+                        class="bg-primary-container p-lg rounded-xl text-on-primary flex flex-col justify-between h-48 shadow-lg hover:translate-y-[-4px] transition-transform">
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest opacity-80">Total
+                            Merchant</span>
+                        <h3 class="font-display-lg text-display-lg-mobile md:text-display-lg font-black">500k+</h3>
+                        <p class="font-label-md text-label-md">Pelaku usaha terverifikasi</p>
+                    </div>
+                    <div
+                        class="bg-surface-container-highest p-lg rounded-xl flex flex-col justify-between h-48 border border-outline-variant/10 shadow-sm hover:translate-y-[-4px] transition-transform">
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Volume
+                            Transaksi</span>
+                        <h3 class="font-display-lg text-display-lg-mobile md:text-display-lg font-black text-primary">Rp
+                            120T</h3>
+                        <p class="font-label-md text-label-md text-on-surface-variant">Diproses setiap tahunnya</p>
+                    </div>
+                    <div
+                        class="bg-secondary p-lg rounded-xl text-on-secondary flex flex-col justify-between h-48 shadow-lg hover:translate-y-[-4px] transition-transform">
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest opacity-80">Cakupan
+                            Wilayah</span>
+                        <h3 class="font-display-lg text-display-lg-mobile md:text-display-lg font-black">34</h3>
+                        <p class="font-label-md text-label-md">Provinsi di seluruh Indonesia</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Nilai-Nilai Kami (Cards with icons) -->
+        <section class="py-xl bg-surface-container-low">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="text-center mb-xl space-y-sm">
+                    <h2 class="font-headline-md text-headline-md text-primary">Pilar Utama Kami</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Kami berpegang teguh
+                        pada nilai-nilai yang menjamin kepercayaan dan kepuasan setiap mitra kami.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-lg">
+                    <div class="bg-white p-lg rounded-xl security-accent shadow-sm hover:shadow-md transition-shadow">
+                        <div
+                            class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-md">
+                            <span class="material-symbols-outlined text-secondary"
+                                style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                        </div>
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-sm">Keamanan Terjamin</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Enkripsi tingkat militer dan sistem
+                            deteksi fraud berbasis AI untuk melindungi setiap rupiah transaksi Anda.</p>
+                    </div>
+                    <div class="bg-white p-lg rounded-xl security-accent shadow-sm hover:shadow-md transition-shadow">
+                        <div
+                            class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-md">
+                            <span class="material-symbols-outlined text-secondary"
+                                style="font-variation-settings: 'FILL' 1;">bolt</span>
+                        </div>
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-sm">Inovasi Tanpa Henti</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Pengembangan fitur berkelanjutan
+                            yang relevan dengan dinamika pasar global dan kebutuhan lokal.</p>
+                    </div>
+                    <div class="bg-white p-lg rounded-xl security-accent shadow-sm hover:shadow-md transition-shadow">
+                        <div
+                            class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-md">
+                            <span class="material-symbols-outlined text-secondary"
+                                style="font-variation-settings: 'FILL' 1;">handshake</span>
+                        </div>
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-sm">Dukungan Lokal</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Tim representasi di kota-kota besar
+                            Indonesia yang siap membantu akselerasi bisnis Anda secara personal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="py-xl">
+            <div class="max-w-container-max mx-auto px-gutter">
+                <div class="bg-primary-container rounded-2xl p-xl md:p-32 text-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 pointer-events-none">
+
+                    </div>
+                    <div class="relative z-10 space-y-md">
+                        <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-white">Mari
+                            Berkolaborasi</h2>
+                        <p class="font-body-lg text-body-lg text-primary-fixed max-w-xl mx-auto">
+                            Siap mengoptimalkan sistem pembayaran bisnis Anda? Tim spesialis kami siap membantu Anda
+                            merancang solusi yang paling efisien.
+                        </p>
+                        <div class="pt-md flex flex-col sm:flex-row gap-md justify-center">
+                            <button
+                                class="bg-white text-primary-container px-xl py-md rounded-full font-label-md text-label-md font-bold hover:bg-surface-container-low transition-all active:scale-95">
+                                Hubungi Tim Sales
+                            </button>
+                            <button
+                                class="border border-white/30 text-white px-xl py-md rounded-full font-label-md text-label-md font-bold hover:bg-white/10 transition-all">
+                                Lihat Dokumentasi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="w-full mt-auto bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant/10">
+        <div
+            class="max-w-container-max mx-auto px-gutter py-xl flex flex-col md:flex-row justify-between items-start gap-md">
+            <div class="space-y-md max-w-sm">
+                <div class="font-headline-sm text-headline-sm font-black text-primary">PastiPay</div>
+                <p class="font-body-md text-body-md text-on-surface-variant">Solusi pembayaran digital terpercaya yang
+                    berlisensi penuh oleh Bank Indonesia untuk mendukung ekonomi masa depan.</p>
+                <div class="flex gap-sm">
+                    <span
+                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span>
+                    <span
+                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">shield</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-xl">
+                <div class="space-y-sm">
+                    <h5 class="font-label-md text-label-md font-bold text-on-surface">Perusahaan</h5>
+                    <div class="flex flex-col gap-xs">
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Privacy Policy</a>
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Terms of Service</a>
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Career</a>
+                    </div>
+                </div>
+                <div class="space-y-sm">
+                    <h5 class="font-label-md text-label-md font-bold text-on-surface">Dukungan</h5>
+                    <div class="flex flex-col gap-xs">
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Security Standards</a>
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Contact Support</a>
+                        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Help Center</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-container-max mx-auto px-gutter py-md border-t border-outline-variant/10">
+            <p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 PastiPay. All rights reserved.
+                Licensed by Bank Indonesia.</p>
+        </div>
+    </footer>
+    <script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.98)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple Fade-in on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body>
+
+</html>

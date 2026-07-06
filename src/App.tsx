@@ -3,10 +3,12 @@ import { Home } from './presentation/pages/Home';
 import { Pricing } from './presentation/pages/Pricing';
 import { Contact } from './presentation/pages/Contact';
 import { About } from './presentation/pages/About';
+import { ScrollToTop } from './presentation/components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />

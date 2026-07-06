@@ -1,280 +1,476 @@
 import { Layout } from '../components/Layout';
 import { useFaqs } from '../hooks/useFaqs';
-import { useMemo, useState } from "react";
-import "../../BiayaPage.css";
+import { useState } from "react";
 
-
-type Category = "semua" | "qris" | "bank" | "ewallet" | "kartu" | "retail";
-
-interface FeeRow {
-  category: Exclude<Category, "semua">;
-  categoryLabel: string;
-  method: string;
-  fee: string;
-  note: string;
+interface PricingPlan {
+  icon: string;
+  name: string;
+  desc: string;
+  price: string;
+  unit: string;
+  features: string[];
+  featured: boolean;
 }
 
-
-const CATEGORY_TABS: { id: Category; label: string }[] = [
-  { id: "semua", label: "Semua" },
-  { id: "qris", label: "QRIS" },
-  { id: "bank", label: "Transfer Bank" },
-  { id: "ewallet", label: "E-Wallet" },
-  { id: "kartu", label: "Kartu" },
-  { id: "retail", label: "Gerai Ritel" },
+const PRICING_PLANS: PricingPlan[] = [
+  {
+    icon: "bi-bank",
+    name: "Transfer Bank",
+    desc: "Untuk semua transfer bank domestik",
+    price: "Rp 2.500",
+    unit: "per transaksi",
+    features: [
+      "BCA, BNI, BRI, Mandiri, dll",
+      "Virtual Account otomatis",
+      "Notifikasi real-time",
+      "Auto-settlement H+1",
+    ],
+    featured: false,
+  },
+  {
+    icon: "bi-wallet2",
+    name: "E-Wallet",
+    desc: "GoPay, OVO, Dana, ShopeePay",
+    price: "1.5%",
+    unit: "per transaksi",
+    features: [
+      "GoPay, OVO, Dana, ShopeePay",
+      "LinkAja & Jeniuspay",
+      "Notifikasi real-time",
+      "Minimum Rp 500/transaksi",
+    ],
+    featured: true,
+  },
+  {
+    icon: "bi-qr-code-scan",
+    name: "QRIS",
+    desc: "Standar BI, diterima semua bank",
+    price: "0.7%",
+    unit: "per transaksi",
+    features: [
+      "Semua bank & e-wallet",
+      "Static & dynamic QR",
+      "Notifikasi real-time",
+      "MDR sesuai regulasi BI",
+    ],
+    featured: false,
+  },
+  {
+    icon: "bi-shop",
+    name: "Minimarket",
+    desc: "Alfamart, Indomaret, dan lainnya",
+    price: "Rp 5.000",
+    unit: "per transaksi",
+    features: [
+      "Alfamart & Indomaret",
+      "Kode bayar 48 jam",
+      "Notifikasi real-time",
+      "Konfirmasi instan",
+    ],
+    featured: false,
+  },
 ];
 
-const FEE_ROWS: FeeRow[] = [
-  {
-    category: "qris",
-    categoryLabel: "QRIS",
-    method: "QRIS (semua e-wallet & m-banking)",
-    fee: "0.5%",
-    note: "Dipotong dari nominal transaksi, tanpa minimum",
-  },
-  {
-    category: "bank",
-    categoryLabel: "Transfer Bank",
-    method: "Virtual Account BCA, BNI, Mandiri, BRI",
-    fee: "Rp 2.500",
-    note: "Biaya tetap per transaksi berhasil",
-  },
-  {
-    category: "bank",
-    categoryLabel: "Transfer Bank",
-    method: "Virtual Account bank lain (OJK)",
-    fee: "Rp 4.000",
-    note: "Biaya tetap per transaksi berhasil",
-  },
-  {
-    category: "ewallet",
-    categoryLabel: "E-Wallet",
-    method: "GoPay, OVO, DANA, ShopeePay",
-    fee: "1.5%",
-    note: "Dipotong dari nominal transaksi",
-  },
-  {
-    category: "kartu",
-    categoryLabel: "Kartu",
-    method: "Kartu Kredit & Debit (Visa, Mastercard)",
-    fee: "2.5% + Rp 2.000",
-    note: "Berlaku untuk kartu domestik & internasional",
-  },
-  {
-    category: "retail",
-    categoryLabel: "Gerai Ritel",
-    method: "Alfamart, Indomaret, Pos Indonesia",
-    fee: "Rp 5.000",
-    note: "Biaya tetap per transaksi berhasil",
-  },
-];
-
-const COMPETITORS = [
-  {
-    name: "PastiPay",
-    highlight: true,
-    qris: "0.5%",
-    bank: "Rp 2.500",
-    ewallet: "1.5%",
-    kartu: "2.5% + Rp 2.000",
-  },
-  {
-    name: "Kompetitor A",
-    highlight: false,
-    qris: "0.7%",
-    bank: "Rp 4.000",
-    ewallet: "2.0%",
-    kartu: "2.9% + Rp 2.000",
-  },
-  {
-    name: "Kompetitor B",
-    highlight: false,
-    qris: "0.7%",
-    bank: "Rp 5.000",
-    ewallet: "1.8%",
-    kartu: "3.0% + Rp 2.500",
-  },
+const COMPARISON_ROWS = [
+  { label: "Biaya Setup", pastipay: "Gratis", a: "Rp 500.000", b: "Rp 750.000" },
+  { label: "Biaya Bulanan", pastipay: "Rp 0", a: "Rp 200.000", b: "Rp 350.000" },
+  { label: "Transfer Bank", pastipay: "Rp 2.500", a: "Rp 3.500", b: "Rp 4.000" },
+  { label: "E-Wallet", pastipay: "1.5%", a: "2.0%", b: "2.5%" },
+  { label: "QRIS", pastipay: "0.7%", a: "0.7%", b: "0.8%" },
+  { label: "Minimarket", pastipay: "Rp 5.000", a: "Rp 6.000", b: "Rp 7.500" },
+  { label: "Pencairan H+1", pastipay: true, a: true, b: false },
+  { label: "Settlement Otomatis", pastipay: true, a: false, b: false },
+  { label: "Tanpa Deposit Minimum", pastipay: true, a: false, b: true },
 ];
 
 export function Pricing() {
   const { faqs, loading } = useFaqs();
-  const [activeCategory, setActiveCategory] = useState<Category>("semua");
-  const [showComparison, setShowComparison] = useState(false);
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-  const filteredRows = useMemo(() => {
-    if (activeCategory === "semua") return FEE_ROWS;
-    return FEE_ROWS.filter((row) => row.category === activeCategory);
-  }, [activeCategory]);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [activeCardIndex, setActiveCardIndex] = useState<number>(1);
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="bp-hero">
-        <span className="bp-badge">TRANSPARAN, TANPA BIAYA TERSEMBUNYI</span>
-        <h1 className="bp-hero-title">
-          Biaya yang <span className="bp-accent">Jujur</span> untuk Setiap
-          Transaksi
-        </h1>
-        <p className="bp-hero-sub">
-          Bayar sesuai transaksi yang berhasil. Tidak ada biaya pendaftaran,
-          biaya bulanan, atau biaya tersembunyi lainnya.
-        </p>
-      </section>
-
-      {/* Fee table */}
-      <section className="bp-section">
-        <div className="bp-section-head">
-          <h2>Rincian Biaya per Metode Pembayaran</h2>
-          <p>Pilih kategori untuk melihat biaya yang berlaku.</p>
-        </div>
-
-        <div className="bp-filter-row" role="tablist" aria-label="Filter kategori pembayaran">
-          {CATEGORY_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={activeCategory === tab.id}
-              className={`bp-filter-chip ${
-                activeCategory === tab.id ? "bp-filter-chip-active" : ""
-              }`}
-              onClick={() => setActiveCategory(tab.id)}
+      <div className="w-100" style={{ backgroundColor: "var(--color-background)" }}>
+        {/* Hero Section */}
+        <section className="py-5 text-center position-relative overflow-hidden">
+          <div className="container py-5 position-relative" style={{ zIndex: 10, maxWidth: '800px' }}>
+            <span
+              className="d-inline-block px-3 py-1 rounded-pill border fs-6 fw-semibold mb-4"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--color-primary) 5%, transparent)",
+                borderColor: "color-mix(in srgb, var(--color-primary) 10%, transparent)",
+                color: "var(--color-primary)",
+              }}
             >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="bp-table-card">
-          <table className="bp-table">
-            <thead>
-              <tr>
-                <th>Kategori</th>
-                <th>Metode</th>
-                <th>Biaya</th>
-                <th>Keterangan</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredRows.map((row, index) => (
-                <tr key={`${row.method}-${index}`}>
-                  <td>
-                    <span className="bp-tag">{row.categoryLabel}</span>
-                  </td>
-                  <td className="bp-method-cell">{row.method}</td>
-                  <td className="bp-fee-cell">{row.fee}</td>
-                  <td className="bp-note-cell">{row.note}</td>
-                </tr>
+              Harga Transparan
+            </span>
+            <h1
+              className="display-4 fw-extrabold mb-4 text-primary-custom"
+              style={{ color: "var(--color-primary)", letterSpacing: "-1.5px" }}
+            >
+              Biaya Transparan<br />Tanpa Biaya Tersembunyi
+            </h1>
+            <p className="lead mb-5 text-variant-custom mx-auto" style={{ maxWidth: '600px' }}>
+              Bayar hanya untuk yang Anda gunakan. Tidak ada kontrak, tidak ada
+              biaya minimum, tidak ada kejutan.
+            </p>
+            <div className="row g-4 justify-content-center mx-auto" style={{ maxWidth: '600px' }}>
+              {[
+                ["Gratis", "Biaya Setup"],
+                ["Rp 0", "Biaya Bulanan"],
+                ["Tidak Ada", "Kontrak"],
+              ].map(([value, label]) => (
+                <div key={label} className="col-4">
+                  <h3 className="h2 fw-bold mb-1 text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                    {value}
+                  </h3>
+                  <p className="small text-variant-custom mb-0">
+                    {label}
+                  </p>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Compare with competitor */}
-      <section className="bp-section bp-compare-section">
-        <div className="bp-compare-card">
-          <div className="bp-dashboard-dots" aria-hidden="true">
-            <span />
-            <span />
+            </div>
           </div>
+        </section>
 
-          <div className="bp-compare-head">
-            <div>
-              <h2>Bandingkan dengan Kompetitor</h2>
-              <p>
-                Lihat bagaimana biaya PastiPay dibandingkan penyedia gerbang
-                pembayaran lain di Indonesia.
+        {/* Pricing Cards Section */}
+        <section className="py-5" style={{ backgroundColor: "color-mix(in srgb, var(--color-surface-container) 30%, transparent)", paddingBottom: '7rem' }}>
+          <div className="container" style={{ marginTop: '-40px', position: 'relative', zIndex: 20 }}>
+            <div className="row g-4 justify-content-center align-items-stretch">
+              {PRICING_PLANS.map((plan, index) => {
+                const isActive = activeCardIndex === index;
+                const isEwallet = index === 1;
+
+                return (
+                  <div
+                    key={plan.name}
+                    className="col-12 col-md-6 col-lg-3 pricing-card-container"
+                    style={{ animationDelay: `${index * 0.15}s` }}
+                    onClick={() => setActiveCardIndex(index)}
+                  >
+                    <div
+                      className={`card h-100 p-4 d-flex flex-column pricing-card-interactive ${
+                        isActive ? "card-active" : "card-inactive"
+                      }`}
+                    >
+                      {/* Pop-up badge */}
+                      <div
+                        className="card-badge badge px-3 py-1 rounded-pill text-white"
+                        style={{
+                          backgroundColor: isEwallet ? "var(--color-secondary)" : "var(--color-primary-container)",
+                        }}
+                      >
+                        {isEwallet ? "Terpopuler" : "Terpilih"}
+                      </div>
+
+                      {/* Icon */}
+                      <div
+                        className="card-icon-container d-flex align-items-center justify-content-center mb-4 rounded"
+                        style={{
+                          width: "48px",
+                          height: "48px",
+                          backgroundColor: isActive
+                            ? "rgba(255, 255, 255, 0.15)"
+                            : "color-mix(in srgb, var(--color-primary) 5%, transparent)",
+                          color: isActive ? "#ffffff" : "var(--color-primary)",
+                        }}
+                      >
+                        <i className={`bi ${plan.icon} fs-4`}></i>
+                      </div>
+
+                      {/* Info */}
+                      <h3
+                        className="h5 fw-bold mb-2"
+                        style={{
+                          color: isActive ? "#ffffff" : "var(--color-primary)",
+                          transition: "color 0.4s ease",
+                        }}
+                      >
+                        {plan.name}
+                      </h3>
+                      <p
+                        className="small mb-4"
+                        style={{
+                          color: isActive ? "rgba(255, 255, 255, 0.7)" : "var(--color-on-surface-variant)",
+                          transition: "color 0.4s ease",
+                        }}
+                      >
+                        {plan.desc}
+                      </p>
+
+                      {/* Price */}
+                      <div className="mb-4">
+                        <span
+                          className="display-6 fw-bold"
+                          style={{
+                            color: isActive ? "#ffffff" : "var(--color-primary)",
+                            transition: "color 0.4s ease",
+                          }}
+                        >
+                          {plan.price}
+                        </span>
+                        <span
+                          className="small d-block"
+                          style={{
+                            color: isActive ? "rgba(255, 255, 255, 0.7)" : "var(--color-on-surface-variant)",
+                            transition: "color 0.4s ease",
+                          }}
+                        >
+                          {plan.unit}
+                        </span>
+                      </div>
+
+                      {/* Features */}
+                      <ul className="list-unstyled mb-4 flex-grow-1 small">
+                        {plan.features.map((f) => (
+                          <li
+                            key={f}
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{
+                              color: isActive ? "rgba(255, 255, 255, 0.9)" : "var(--color-on-surface-variant)",
+                              transition: "color 0.4s ease",
+                            }}
+                          >
+                            <i
+                              className="bi bi-check-circle-fill"
+                              style={{
+                                color: isActive ? "var(--color-secondary-container)" : "var(--color-secondary)",
+                                transition: "color 0.4s ease",
+                              }}
+                            ></i>
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Button */}
+                      <button
+                        className="card-btn btn w-100 fw-bold py-2 mt-auto d-flex align-items-center justify-content-center gap-2"
+                        style={{
+                          backgroundColor: isActive ? "#ffffff" : "transparent",
+                          color: isActive ? "var(--color-primary)" : "var(--color-primary)",
+                          borderColor: isActive ? "transparent" : "var(--color-primary)",
+                          borderWidth: "1px",
+                          borderStyle: "solid",
+                          borderRadius: "0.5rem",
+                        }}
+                      >
+                        Daftar Merchant <i className="bi bi-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Large Volume Callout */}
+            <div
+              className="mt-5 rounded-4 p-4 border d-flex flex-column flex-md-row align-items-center justify-content-center gap-2 text-center"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--color-secondary-container) 20%, transparent)",
+                borderColor: "color-mix(in srgb, var(--color-primary) 10%, transparent)",
+              }}
+            >
+              <i className="bi bi-lightning-charge-fill fs-5 text-primary-custom"></i>
+              <p className="fw-semibold mb-0 text-primary-custom">
+                <strong>Volume besar?</strong> Dapatkan harga khusus untuk transaksi di atas Rp 100 juta/bulan.{" "}
+                <a className="text-decoration-underline fw-bold text-primary-custom" href="/contact">
+                  Hubungi tim kami →
+                </a>
               </p>
             </div>
-            <button
-              type="button"
-              className="bp-btn bp-btn-outline"
-              onClick={() => setShowComparison((v) => !v)}
-              aria-expanded={showComparison}
-            >
-              {showComparison ? "Sembunyikan Perbandingan" : "Bandingkan Sekarang"}
-            </button>
           </div>
+        </section>
 
-          {showComparison && (
-            <div className="bp-compare-table-wrap">
-              <table className="bp-table bp-compare-table">
+        {/* Comparison Section */}
+        <section className="py-5">
+          <div className="container">
+            <div className="text-center mb-5">
+              <h2 className="display-5 fw-bold text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                Bandingkan dengan Kompetitor
+              </h2>
+              <p className="lead text-variant-custom">
+                Lihat kenapa merchant memilih PastiPay
+              </p>
+            </div>
+            <div className="table-responsive shadow-sm rounded-4 border overflow-hidden" style={{ backgroundColor: "#ffffff" }}>
+              <table className="table table-hover align-middle mb-0" style={{ minWidth: "800px" }}>
                 <thead>
-                  <tr>
-                    <th>Penyedia</th>
-                    <th>QRIS</th>
-                    <th>Transfer Bank</th>
-                    <th>E-Wallet</th>
-                    <th>Kartu Kredit</th>
+                  <tr className="align-middle" style={{ backgroundColor: "color-mix(in srgb, var(--color-primary) 5%, transparent)" }}>
+                    <th className="p-3 ps-4 border-0 fw-bold text-variant-custom">Fitur</th>
+                    <th className="p-3 text-center border-0 fw-bold text-primary-custom" style={{ color: "var(--color-primary)" }}>PastiPay</th>
+                    <th className="p-3 text-center border-0 fw-semibold text-variant-custom">Kompetitor A</th>
+                    <th className="p-3 text-center border-0 fw-semibold text-variant-custom">Kompetitor B</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {COMPETITORS.map((row) => (
-                    <tr
-                      key={row.name}
-                      className={row.highlight ? "bp-row-highlight" : ""}
-                    >
-                      <td className="bp-provider-cell">
-                        {row.name}
-                        {row.highlight && (
-                          <span className="bp-tag bp-tag-mint">Pilihan Anda</span>
+                  {COMPARISON_ROWS.map((row, i) => (
+                    <tr key={row.label} className="align-middle">
+                      <td className="p-3 ps-4 fw-semibold border-bottom text-dark">{row.label}</td>
+                      <td className="p-3 text-center fw-bold border-bottom text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                        {typeof row.pastipay === "boolean" ? (
+                          row.pastipay ? (
+                            <i className="bi bi-check-lg fs-4 text-success"></i>
+                          ) : (
+                            <i className="bi bi-x-lg fs-5 text-danger"></i>
+                          )
+                        ) : (
+                          row.pastipay
                         )}
                       </td>
-                      <td>{row.qris}</td>
-                      <td>{row.bank}</td>
-                      <td>{row.ewallet}</td>
-                      <td>{row.kartu}</td>
+                      <td className="p-3 text-center border-bottom text-variant-custom">
+                        {typeof row.a === "boolean" ? (
+                          row.a ? (
+                            <i className="bi bi-check-lg fs-4 text-success"></i>
+                          ) : (
+                            <i className="bi bi-x-lg fs-5 text-danger"></i>
+                          )
+                        ) : (
+                          row.a
+                        )}
+                      </td>
+                      <td className="p-3 text-center border-bottom text-variant-custom">
+                        {typeof row.b === "boolean" ? (
+                          row.b ? (
+                            <i className="bi bi-check-lg fs-4 text-success"></i>
+                          ) : (
+                            <i className="bi bi-x-lg fs-5 text-danger"></i>
+                          )
+                        ) : (
+                          row.b
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <p className="bp-compare-footnote">
-                *Angka kompetitor bersifat ilustratif berdasarkan rata-rata
-                harga pasar umum, dapat berbeda dengan kebijakan resmi
-                masing-masing penyedia.
-              </p>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* FAQ Accordion Section */}
-
-      <section className="bp-section bp-faq-section">
-        <div className="bp-section-head">
-          <h2>Pertanyaan Umum</h2>
-          <p>Hal-hal yang paling sering ditanyakan seputar biaya PastiPay.</p>
-        </div>
-
-        <div className="bp-faq-list">
-          {faqs.map((item, index) => {
-            const isOpen = openFaqIndex === index;
-            return (
-              <div
-                key={item.question}
-                className={`bp-faq-item ${isOpen ? "bp-faq-item-open" : ""}`}
-              >
-                <button
-                  type="button"
-                  className="bp-faq-question"
-                  onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                  aria-expanded={isOpen}
-                >
-                  {item.question}
-                  <span className="bp-faq-icon" aria-hidden="true">
-                    {isOpen ? "−" : "+"}
-                  </span>
-                </button>
-                {isOpen && <p className="bp-faq-answer">{item.answer}</p>}
+        {/* FAQ Accordion Section */}
+        <section className="py-5 bg-white border-top border-bottom">
+          <div className="container" style={{ maxWidth: "800px" }}>
+            <div className="text-center mb-5">
+              <h2 className="display-6 fw-bold text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                Pertanyaan Umum
+              </h2>
+            </div>
+            {loading ? (
+              <div className="text-center py-5">
+                <div className="spinner-border text-success" role="status">
+                  <span className="visually-hidden">Memuat...</span>
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
+            ) : (
+              <div className="d-flex flex-column gap-3">
+                {faqs.map((item, i) => {
+                  const isOpen = openFaq === i;
+                  return (
+                    <div
+                      key={item.question}
+                      className="card border shadow-sm"
+                      style={{
+                        backgroundColor: "var(--color-background)",
+                        borderColor: isOpen ? "color-mix(in srgb, var(--color-primary) 20%, transparent)" : "#e5e4e7",
+                        borderRadius: "0.75rem",
+                        overflow: "hidden"
+                      }}
+                    >
+                      <button
+                        className="btn w-100 px-4 py-3 d-flex align-items-center justify-content-between text-start border-0 shadow-none"
+                        onClick={() => setOpenFaq(isOpen ? null : i)}
+                        aria-expanded={isOpen}
+                        style={{ color: "inherit" }}
+                      >
+                        <span className="fw-bold text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                          {item.question}
+                        </span>
+                        <div
+                          className="d-flex align-items-center justify-content-center rounded-circle ms-3"
+                          style={{
+                            width: "32px",
+                            height: "32px",
+                            backgroundColor: "color-mix(in srgb, var(--color-primary) 5%, transparent)",
+                            transition: "transform 0.3s"
+                          }}
+                        >
+                          <i
+                            className="bi bi-chevron-down text-variant-custom"
+                            style={{
+                              display: "inline-block",
+                              transition: "transform 0.3s",
+                              transform: isOpen ? "rotate(180deg)" : "rotate(0)"
+                            }}
+                          ></i>
+                        </div>
+                      </button>
+                      {isOpen && (
+                        <div className="px-4 pb-3">
+                          <hr className="my-2 opacity-10" />
+                          <p className="small text-variant-custom mb-0 mt-2">
+                            {item.answer}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
 
-      
+        {/* CTA Section */}
+        <section className="py-5 px-3">
+          <div
+            className="container rounded-4 p-4 p-md-5 text-center position-relative overflow-hidden"
+            style={{
+              backgroundColor: "var(--color-secondary-container)",
+              maxWidth: "800px"
+            }}
+          >
+            <div className="position-relative" style={{ zIndex: 10 }}>
+              <h2 className="display-5 fw-bold mb-3 text-primary-custom" style={{ color: "var(--color-primary)" }}>
+                Siap Mulai?
+              </h2>
+              <p className="lead mb-4 text-primary-custom opacity-75">
+                Daftar gratis sekarang dan mulai terima pembayaran dalam 24 jam
+              </p>
+              <button
+                className="btn btn-lg bg-primary-custom text-white fw-bold px-5 py-3 shadow border-0"
+                style={{ borderRadius: "0.5rem" }}
+              >
+                Daftar Merchant Sekarang <i className="bi bi-arrow-right ms-2"></i>
+              </button>
+            </div>
+            <div
+              className="position-absolute rounded-circle"
+              style={{
+                right: "-50px",
+                bottom: "-50px",
+                width: "200px",
+                height: "200px",
+                backgroundColor: "color-mix(in srgb, var(--color-primary) 10%, transparent)",
+                filter: "blur(40px)",
+                zIndex: 1
+              }}
+            />
+            <div
+              className="position-absolute rounded-circle"
+              style={{
+                left: "-50px",
+                top: "-50px",
+                width: "250px",
+                height: "250px",
+                backgroundColor: "color-mix(in srgb, var(--color-primary) 10%, transparent)",
+                filter: "blur(60px)",
+                zIndex: 1
+              }}
+            />
+          </div>
+        </section>
+      </div>
     </Layout>
   );
 }

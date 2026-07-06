@@ -1,6 +1,19 @@
 const MOCK_FAQS = [
-  { id: 1, question: "Apakah ada biaya pendaftaran atau biaya bulanan?", answer: "Tidak ada biaya pendaftaran maupun biaya bulanan. Anda hanya membayar per transaksi sukses." },
-  { id: 2, question: "Kapan dana merchant dicairkan?", answer: "Dana merchant akan dicairkan secara otomatis pada H+1 hari kerja." }
+  {
+    id: 1,
+    question: "Apakah ada biaya pendaftaran atau biaya bulanan?",
+    answer: "Tidak ada. Pendaftaran, aktivasi akun, dan biaya bulanan semuanya gratis. Anda hanya membayar biaya per transaksi sesuai metode pembayaran yang digunakan."
+  },
+  {
+    id: 2,
+    question: "Kapan dana merchant dicairkan?",
+    answer: "Untuk transfer bank dan e-wallet, dana dicairkan otomatis H+1 ke rekening terdaftar Anda. Tidak perlu pengajuan manual, prosesnya berjalan otomatis setiap hari kerja."
+  },
+  {
+    id: 3,
+    question: "Apakah ada minimum volume transaksi?",
+    answer: "Tidak ada minimum volume transaksi maupun kontrak jangka panjang. Anda bebas menggunakan layanan sesuai kebutuhan bisnis, baik untuk transaksi kecil maupun skala besar."
+  }
 ];
 
 export class FaqDataSource {

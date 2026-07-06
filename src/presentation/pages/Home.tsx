@@ -127,10 +127,18 @@ export function Home() {
               </p>
 
               <div className="d-flex flex-wrap gap-3 mb-5">
-                <a href="#" className="btn btn-lg rounded-pill px-4 text-white fw-semibold border-0 d-flex align-items-center gap-2" style={{ backgroundColor: '#013a11', fontSize: '16px' }}>
+                <a
+                  href="#"
+                  className="btn btn-lg rounded-pill px-4 fw-semibold d-flex align-items-center gap-2 btn-magnetic-primary"
+                  style={{ fontSize: '16px' }}
+                >
                   Daftar Sekarang <i className="bi bi-arrow-right"></i>
                 </a>
-                <a href="#" className="btn btn-lg btn-outline-dark rounded-pill px-4 fw-semibold" style={{ fontSize: '16px' }}>
+                <a
+                  href="#"
+                  className="btn btn-lg rounded-pill px-4 fw-semibold btn-magnetic-outline"
+                  style={{ fontSize: '16px' }}
+                >
                   Hubungi Sales
                 </a>
               </div>
@@ -376,8 +384,20 @@ export function Home() {
               <p className="text-white-50 fs-5 mb-5 mx-auto" style={{ maxWidth: '600px' }}>Gabung sekarang bersama ribuan merchant sukses dan nikmati kemudahan mengelola transaksi bisnis di Indonesia.</p>
               
               <div className="d-flex flex-wrap justify-content-center gap-3">
-                <a href="#" className="btn btn-lg bg-white text-success fw-bold rounded-pill px-5" style={{ fontSize: '16px' }}>Daftar Sekarang</a>
-                <a href="#" className="btn btn-lg btn-outline-light rounded-pill px-5" style={{ fontSize: '16px' }}>Hubungi Sales</a>
+                <a
+                  href="#"
+                  className="btn btn-lg rounded-pill px-5 fw-bold btn-magnetic-light"
+                  style={{ fontSize: '16px' }}
+                >
+                  Daftar Sekarang
+                </a>
+                <a
+                  href="#"
+                  className="btn btn-lg rounded-pill px-5 fw-bold btn-magnetic-outline-light"
+                  style={{ fontSize: '16px' }}
+                >
+                  Hubungi Sales
+                </a>
               </div>
             </div>
           </div>
