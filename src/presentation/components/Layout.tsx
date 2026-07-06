@@ -8,7 +8,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <>
       {/* HEADER */}
-      <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
+      <header className="sticky-top bg-surface-custom border-bottom py-3 shadow-sm">
         <nav className="container d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center gap-2">
             <div className="bg-primary-custom text-white p-2 rounded">

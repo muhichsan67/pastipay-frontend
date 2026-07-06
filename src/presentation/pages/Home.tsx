@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Layout } from '../components/Layout';
 
 // MOCKUP VISUAL DASHBOARD (Sisi Kanan Hero)
 const LiveDashboardMockup = () => {
@@ -109,47 +110,7 @@ export function Home() {
   const [activeTab, setActiveTab] = useState('Beranda');
 
   return (
-    // Memaksa seluruh elemen di dalam komponen ini menggunakan font Poppins
-    <div style={{ backgroundColor: '#FCF9EE', fontFamily: "'Poppins', 'Segoe UI', sans-serif" }}>
-      
-      {/* 1. NAVIGATION BAR */}
-      <nav className="navbar navbar-expand-lg sticky-top py-3 bg-white border-bottom shadow-sm">
-        <div className="container">
-          <a className="navbar-brand d-flex align-items-center gap-2" href="#" style={{ textDecoration: 'none' }}>
-            <div className="rounded-3 d-flex align-items-center justify-content-center text-white shadow-sm" style={{ width: '42px', height: '42px', backgroundColor: '#013a11' }}>
-              <i className="bi bi-bank2 fs-5"></i>
-            </div>
-            <span className="fw-bold fs-3 ms-1" style={{ color: '#013a11', letterSpacing: '-0.5px' }}>PastiPay</span>
-          </a>
-
-          <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          {/* Nav Menu Kapsul Tengah */}
-          <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <div className="d-flex align-items-center gap-1 p-1 rounded-pill my-3 my-lg-0" style={{ backgroundColor: '#FCF9EE', border: '1px solid #E2E8F0' }}>
-              {['Beranda', 'Biaya', 'Kontak Kami'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`btn rounded-pill px-4 py-2 border-0 fw-medium text-dark ${activeTab === tab ? 'bg-white shadow-sm' : ''}`}
-                  style={{ fontSize: '14px', transition: 'all 0.2s' }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Action Buttons Kanan */}
-          <div className="d-flex align-items-center gap-3">
-            <a href="#" className="btn btn-link text-decoration-none fw-semibold text-dark" style={{ fontSize: '15px' }}>Masuk</a>
-            <a href="#" className="btn rounded-pill px-4 text-white fw-medium border-0" style={{ backgroundColor: '#013a11', fontSize: '15px' }}>Daftar Sekarang</a>
-          </div>
-        </div>
-      </nav>
-
+    <Layout>
       {/* 2. HERO SECTION */}
       <section className="py-5 position-relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(243,240,223,0.5) 0%, rgba(252,249,238,1) 100%)' }}>
         <div className="container">
@@ -425,76 +386,6 @@ export function Home() {
           </div>
         </div>
       </section>
-
-{/* 8. FOOTER */}
-      <footer className="pt-5 pb-4 bg-white text-start border-top">
-        <div className="container pt-4">
-          <div className="row g-5">
-            {/* Kolom Kiri: Deskripsi Brand & Logo */}
-            <div className="col-lg-4">
-              <div className="d-flex align-items-center gap-2 mb-3">
-                <div className="rounded d-flex align-items-center justify-content-center text-white" style={{ width: '32px', height: '32px', backgroundColor: '#013a11' }}>
-                  <i className="bi bi-bank2"></i>
-                </div>
-                <span className="fw-bold fs-4" style={{ color: '#013a11' }}>PastiPay</span>
-              </div>
-              <p className="text-muted" style={{ fontSize: '15px' }}>
-                PastiPay merupakan solusi payment gateway tepercaya yang menghadirkan inovasi infrastruktur keuangan digital berkualitas bagi seluruh pelaku bisnis online Indonesia.
-              </p>
-            </div>
-
-            {/* Kolom 1: PRODUK */}
-            <div className="col-sm-4 col-lg-2 offset-lg-2">
-              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>PRODUK</h6>
-              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
-                <li><Link to="/" className="text-muted text-decoration-none" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}> Beranda / Aktivasi</Link></li>
-                <li><Link to="/pricing" className="text-muted text-decoration-none">Biaya</Link></li>
-                <li><Link to="/pricing" className="text-muted text-decoration-none">Metode Payment</Link></li>
-                <li><Link to="/about" className="text-muted text-decoration-none">Keamanan</Link></li>
-                <li><Link to="/contact" className="text-muted text-decoration-none">API Docs</Link></li>
-              </ul>
-            </div>
-
-            {/* Kolom 2: PERUSAHAAN */}
-            <div className="col-sm-4 col-lg-2">
-              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>PERUSAHAAN</h6>
-              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
-                <li><Link to="/about" className="text-muted text-decoration-none">Tentang Kami</Link></li>
-                <li><Link to="/about" className="text-muted text-decoration-none">Karir</Link></li>
-                <li><Link to="/about" className="text-muted text-decoration-none">Pusat Media</Link></li>
-                <li><Link to="/about" className="text-muted text-decoration-none">Keberlanjutan</Link></li>
-                <li><Link to="/about" className="text-muted text-decoration-none">Mitra Bisnis</Link></li>
-              </ul>
-            </div>
-
-            {/* Kolom 3: DUKUNGAN */}
-            <div className="col-sm-4 col-lg-2">
-              <h6 className="fw-bold mb-4 text-dark text-uppercase" style={{ fontSize: '13px', letterSpacing: '1px' }}>DUKUNGAN</h6>
-              <ul className="list-unstyled d-grid gap-2" style={{ fontSize: '15px' }}>
-                <li><Link to="/contact" className="text-muted text-decoration-none">Pusat Bantuan</Link></li>
-                <li><Link to="/contact" className="text-muted text-decoration-none">Syarat & Ketentuan</Link></li>
-                <li><Link to="/contact" className="text-muted text-decoration-none">Kebijakan Privasi</Link></li>
-                <li><Link to="/contact" className="text-muted text-decoration-none">Status Layanan</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Baris Hak Cipta & Dokumen Bawah */}
-          <div className="row mt-5 pt-4 border-top text-center text-md-start">
-            <div className="col-md-6 mb-3 mb-md-0">
-              <p className="text-muted mb-0" style={{ fontSize: '14px' }}>© 2026 PastiPay. All rights reserved.</p>
-            </div>
-            <div className="col-md-6 text-md-end">
-              <div className="d-flex justify-content-center justify-content-md-end gap-3" style={{ fontSize: '14px' }}>
-                <Link to="/about" className="text-muted text-decoration-none">Syarat Layanan</Link>
-                <Link to="/about" className="text-muted text-decoration-none">Kebijakan Data</Link>
-                <Link to="/contact" className="text-muted text-decoration-none">Kontak CS</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-    </div>
+    </Layout>
   );
 }
