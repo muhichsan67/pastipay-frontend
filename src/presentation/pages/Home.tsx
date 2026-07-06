@@ -107,7 +107,6 @@ const ALL_TESTIMONIALS = [
 
 // KOMPONEN UTAMA BERANDA (Dipanggil oleh App.tsx)
 export function Home() {
-  const [activeTab, setActiveTab] = useState('Beranda');
 
   return (
     <Layout>
