@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 
 // MOCKUP VISUAL DASHBOARD (Sisi Kanan Hero)
@@ -107,7 +105,6 @@ const ALL_TESTIMONIALS = [
 
 // KOMPONEN UTAMA BERANDA (Dipanggil oleh App.tsx)
 export function Home() {
-  const [activeTab, setActiveTab] = useState('Beranda');
 
   return (
     <Layout>
