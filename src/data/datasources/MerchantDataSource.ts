@@ -1,17 +1,37 @@
+import { axiosInstance } from '../../core/api/axiosInstance';
 import type { MerchantFormData } from '../../domain/entities/MerchantFormData';
+
+interface ContactSubmitPayload {
+  full_name: string;
+  job_title: string;
+  company_email: string;
+  company_website?: string;
+  phone_number: string;
+  estimated_volume: string;
+  message: string;
+}
 
 export class MerchantDataSource {
   async sendForm(formData: MerchantFormData): Promise<{ success: boolean; message: string }> {
-    // Log data untuk memastikan data dari form masuk ke data layer
-    console.log("Mengirim data form ke API Server:", formData);
-    
-    // Simulasi jeda jaringan (network latency) selama 800 milidetik
-    await new Promise(resolve => setTimeout(resolve, 800));
+    const payload: ContactSubmitPayload = {
+      full_name: formData.name,
+      job_title: formData.position,
+      company_email: formData.email,
+      phone_number: formData.phone,
+      estimated_volume: formData.volume,
+      message: formData.message,
+    };
 
-    // Kembalikan respons statis (mock response)
-    return { 
-      success: true, 
-      message: "Pendaftaran merchant berhasil dikirim! Tim kami akan menghubungi Anda via email." 
+    if (formData.website.trim()) {
+      payload.company_website = formData.website;
+    }
+
+    const response = await axiosInstance.post('/contact/submit', payload);
+    const data = response.data as { success?: boolean; message?: string };
+
+    return {
+      success: data.success ?? true,
+      message: data.message ?? 'Berhasil mengirim pesan',
     };
   }
 }

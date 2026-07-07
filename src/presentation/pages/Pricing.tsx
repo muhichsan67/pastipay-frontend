@@ -1,5 +1,6 @@
 import { Layout } from '../components/Layout';
 import { useFaqs } from '../hooks/useFaqs';
+import { useExchangeRates } from '../hooks/useExchangeRates';
 import { useState } from "react";
 
 interface PricingPlan {
@@ -83,10 +84,19 @@ const COMPARISON_ROWS = [
   { label: "Tanpa Deposit Minimum", pastipay: true, a: false, b: true },
 ];
 
+function formatExchangeRate(rate: number): string {
+  return new Intl.NumberFormat('id-ID').format(rate);
+}
+
 export function Pricing() {
-  const { faqs, loading } = useFaqs();
+  const { faqs, loading, error: faqError } = useFaqs();
+  const { rates, loading: ratesLoading, error: ratesError } = useExchangeRates();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [activeCardIndex, setActiveCardIndex] = useState<number>(1);
+
+  const usdToIdr = rates.find(
+    (rate) => rate.fromCurrency === 'USD' && rate.toCurrency === 'IDR',
+  );
 
   return (
     <Layout>
@@ -96,8 +106,20 @@ export function Pricing() {
             Info Kurs
           </span>
           <span className="fw-medium">
-            Seluruh transaksi dikonversi otomatis menggunakan kurs live saat ini: 
-            <strong className="text-dark">1 USD = Rp 16.500</strong>
+            Seluruh transaksi dikonversi otomatis menggunakan kurs live saat ini:{' '}
+            {ratesLoading ? (
+              <span className="spinner-border spinner-border-sm text-info ms-1" role="status">
+                <span className="visually-hidden">Memuat kurs...</span>
+              </span>
+            ) : ratesError ? (
+              <strong className="text-danger">Gagal memuat kurs</strong>
+            ) : usdToIdr ? (
+              <strong className="text-dark">
+                1 {usdToIdr.fromCurrency} = Rp {formatExchangeRate(usdToIdr.rate)}
+              </strong>
+            ) : (
+              <strong className="text-dark">1 USD = Rp 16.500</strong>
+            )}
           </span>
         </div>
       </div>
@@ -373,13 +395,17 @@ export function Pricing() {
                   <span className="visually-hidden">Memuat...</span>
                 </div>
               </div>
+            ) : faqError ? (
+              <div className="alert alert-danger text-center" role="alert">
+                {faqError}
+              </div>
             ) : (
               <div className="d-flex flex-column gap-3">
                 {faqs.map((item, i) => {
                   const isOpen = openFaq === i;
                   return (
                     <div
-                      key={item.question}
+                      key={item.id}
                       className="card border shadow-sm"
                       style={{
                         backgroundColor: "var(--color-background)",

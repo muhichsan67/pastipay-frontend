@@ -1,4 +1,5 @@
 import { Layout } from '../components/Layout';
+import { useTestimonials } from '../hooks/useTestimonials';
 
 // MOCKUP VISUAL DASHBOARD (Sisi Kanan Hero)
 const LiveDashboardMockup = () => {
@@ -93,18 +94,14 @@ const LiveDashboardMockup = () => {
   );
 };
 
-// Bank data testimoni lengkap untuk diacak
-const ALL_TESTIMONIALS = [
-  { id: 1, name: "Andi Hermawan", role: "CEO TokoHijau", initial: "A", text: '"Integrasi API PastiPay sangat praktis. Sistem checkout web kami menjadi jauh lebih mulus, dan pembeli merasa aman."', stars: 5 },
-  { id: 2, name: "Siti Aminah", role: "Owner HijabStyle", initial: "S", text: '"Sangat terbantu dengan fitur penarikan otomatis harian. Cashflow bisnis baju online saya sekarang menjadi jauh lebih stabil."', stars: 5 },
-  { id: 3, name: "Faisal Basri", role: "Developer Lead FoodYuk", initial: "F", text: '"Fitur notifikasi real-time transaksi sukses sangat akurat. CS PastiPay juga responsif membantu saat kami kesulitan coding."', stars: 5 },
-  { id: 4, name: "Budi Santoso", role: "Founder KopiLokal", initial: "B", text: '"Biaya MDR sangat kompetitif dibanding gateway lain. Pas sekali untuk margin bisnis UMKM kuliner seperti kami."', stars: 5 },
-  { id: 5, name: "Clarissa Utama", role: "Marketing GadgetIn", initial: "C", text: '"Pelanggan kami senang karena pilihan e-wallet sangat lengkap. Sekali klik lewat QRIS, pembayaran langsung beres."', stars: 5 },
-  { id: 6, name: "Dewi Lestari", role: "CFO TiketSini", initial: "D", text: '"Keamanan PCI-DSS dari PastiPay membuat kami tenang memproses ribuan transaksi tiket setiap harinya tanpa kendala."', stars: 5 }
-];
-
 // KOMPONEN UTAMA BERANDA (Dipanggil oleh App.tsx)
 export function Home() {
+  const { testimonials, loading: testimonialsLoading, error: testimonialsError } = useTestimonials();
+
+  const testimonialSlides: typeof testimonials[] = [];
+  for (let i = 0; i < testimonials.length; i += 3) {
+    testimonialSlides.push(testimonials.slice(i, i + 3));
+  }
 
   return (
     <Layout>
@@ -286,30 +283,44 @@ export function Home() {
           </div>
 
           {/* Wrapper Utama Bootstrap Carousel */}
+          {testimonialsLoading ? (
+            <div className="text-center py-5">
+              <div className="spinner-border text-success" role="status">
+                <span className="visually-hidden">Memuat testimoni...</span>
+              </div>
+            </div>
+          ) : testimonialsError ? (
+            <div className="alert alert-danger text-center mx-auto" style={{ maxWidth: '600px' }} role="alert">
+              {testimonialsError}
+            </div>
+          ) : testimonialSlides.length === 0 ? (
+            <div className="alert alert-secondary text-center mx-auto" style={{ maxWidth: '600px' }} role="alert">
+              Belum ada testimoni tersedia.
+            </div>
+          ) : (
           <div id="testimonialCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <div className="carousel-inner px-md-5">
-              
-              {/* SLIDE 1 (Menampilkan 3 Testimoni Pertama) */}
-              <div className="carousel-item active">
+              {testimonialSlides.map((slide, slideIndex) => (
+              <div className={`carousel-item${slideIndex === 0 ? ' active' : ''}`} key={slideIndex}>
                 <div className="row g-4 text-start">
-                  {ALL_TESTIMONIALS.slice(0, 3).map((testi) => (
+                  {slide.map((testi) => (
                     <div className="col-md-4" key={testi.id}>
                       <div className="card h-100 p-4 border rounded-4 bg-light shadow-sm d-flex flex-column justify-content-between">
                         <div>
                           <div className="text-warning mb-3">
-                            {Array.from({ length: testi.stars }).map((_, i) => (
+                            {Array.from({ length: testi.rating }).map((_, i) => (
                               <i key={i} className="bi bi-star-fill me-1"></i>
                             ))}
                           </div>
-                          <p className="text-dark-50 fst-italic mb-4" style={{ fontSize: '14px' }}>{testi.text}</p>
+                          <p className="text-dark-50 fst-italic mb-4" style={{ fontSize: '14px' }}>{testi.content}</p>
                         </div>
                         <div className="d-flex align-items-center gap-3 border-top pt-3">
                           <div className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px', backgroundColor: '#013a11' }}>
-                            {testi.initial}
+                            {testi.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <h6 className="fw-bold mb-0 text-dark" style={{ fontSize: '15px' }}>{testi.name}</h6>
-                            <p className="text-muted mb-0 small" style={{ fontSize: '12px' }}>{testi.role}</p>
+                            <p className="text-muted mb-0 small" style={{ fontSize: '12px' }}>{testi.position}{testi.company ? `, ${testi.company}` : ''}</p>
                           </div>
                         </div>
                       </div>
@@ -317,38 +328,11 @@ export function Home() {
                   ))}
                 </div>
               </div>
-
-              {/* SLIDE 2 (Menampilkan 3 Testimoni Berikutnya) */}
-              <div className="carousel-item">
-                <div className="row g-4 text-start">
-                  {ALL_TESTIMONIALS.slice(3, 6).map((testi) => (
-                    <div className="col-md-4" key={testi.id}>
-                      <div className="card h-100 p-4 border rounded-4 bg-light shadow-sm d-flex flex-column justify-content-between">
-                        <div>
-                          <div className="text-warning mb-3">
-                            {Array.from({ length: testi.stars }).map((_, i) => (
-                              <i key={i} className="bi bi-star-fill me-1"></i>
-                            ))}
-                          </div>
-                          <p className="text-dark-50 fst-italic mb-4" style={{ fontSize: '14px' }}>{testi.text}</p>
-                        </div>
-                        <div className="d-flex align-items-center gap-3 border-top pt-3">
-                          <div className="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px', backgroundColor: '#013a11' }}>
-                            {testi.initial}
-                          </div>
-                          <div>
-                            <h6 className="fw-bold mb-0 text-dark" style={{ fontSize: '15px' }}>{testi.name}</h6>
-                            <p className="text-muted mb-0 small" style={{ fontSize: '12px' }}>{testi.role}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+              ))}
             </div>
 
+            {testimonialSlides.length > 1 && (
+              <>
             {/* Tombol Navigasi Kiri (Panah) */}
             <button className="carousel-control-prev d-none d-md-flex" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev" style={{ width: '5%' }}>
               <div className="bg-white rounded-circle shadow border d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', color: '#013a11' }}>
@@ -367,11 +351,24 @@ export function Home() {
 
             {/* Indikator Garis/Titik Kecil Bawah */}
             <div className="carousel-indicators position-relative mt-4 mb-0">
-              <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" className="active bg-success" aria-current="true" aria-label="Slide 1" style={{ width: '24px', height: '6px', borderRadius: '3px' }}></button>
-              <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" className="bg-success" aria-label="Slide 2" style={{ width: '24px', height: '6px', borderRadius: '3px' }}></button>
+              {testimonialSlides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                data-bs-target="#testimonialCarousel"
+                data-bs-slide-to={index}
+                className={index === 0 ? 'active bg-success' : 'bg-success'}
+                aria-current={index === 0 ? 'true' : undefined}
+                aria-label={`Slide ${index + 1}`}
+                style={{ width: '24px', height: '6px', borderRadius: '3px' }}
+              ></button>
+              ))}
             </div>
+              </>
+            )}
 
           </div>
+          )}
         </div>
       </section>
 
