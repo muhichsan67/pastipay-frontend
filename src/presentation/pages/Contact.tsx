@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Layout } from '../components/Layout';
-import { MerchantDataSource } from '../../data/datasources/MerchantDataSource';
-import { SubmitMerchantFormUseCase } from '../../domain/usecases/SubmitMerchantFormUseCase';
-import { MerchantRepositoryImpl } from '../../data/repositories/MerchantRepositoryImpl';
+import { useSubmitContactForm } from '../hooks/useSubmitContactForm';
 import type { MerchantFormData } from '../../domain/entities/MerchantFormData';
 
 export function Contact() {
+  const { submitForm, loading, status, message } = useSubmitContactForm();
   const [formData, setFormData] = useState<MerchantFormData>({
     name: '',
     position: '',
@@ -15,18 +14,11 @@ export function Contact() {
     volume: '',
     message: ''
   });
-  const [status, setStatus] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const dataSource = new MerchantDataSource();
-      const repository = new MerchantRepositoryImpl(dataSource);
-      const useCase = new SubmitMerchantFormUseCase(repository);
-      
-      const result = await useCase.execute(formData);
-      setStatus(result.message);
-      // Reset form on success
+    const success = await submitForm(formData);
+    if (success) {
       setFormData({
         name: '',
         position: '',
@@ -36,8 +28,6 @@ export function Contact() {
         volume: '',
         message: ''
       });
-    } catch (err: any) {
-      setStatus(err.message || 'Terjadi kesalahan');
     }
   };
 
@@ -84,7 +74,11 @@ export function Contact() {
               >
                 <h2 className="h4 fw-bold text-primary-custom mb-2">Formulir Merchant</h2>
                 <p className="text-variant-custom small mb-4">Isi formulir di bawah dan tim kami akan segera menghubungi Anda.</p>
-                {status && <div className="alert alert-info">{status}</div>}
+                {message && (
+                  <div className={`alert ${status === 'success' ? 'alert-success' : 'alert-danger'}`} role="alert">
+                    {message}
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit}>
                   <div className="row g-3 mb-3">
@@ -203,9 +197,19 @@ export function Contact() {
                   <button
                     type="submit"
                     className="btn bg-primary-custom text-white w-100 py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center gap-2"
+                    disabled={loading}
                   >
-                    <span>Kirim Permintaan Konsultasi</span>
-                    <i className="bi bi-send small"></i>
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Mengirim...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Kirim Permintaan Konsultasi</span>
+                        <i className="bi bi-send small"></i>
+                      </>
+                    )}
                   </button>
                   <p className="text-center text-xs text-variant-custom mt-3 mb-0" style={{ fontSize: "11px", opacity: 0.7 }}>
                     Dengan mendaftar, Anda menyetujui <a className="text-decoration-underline text-primary-custom" href="#">Syarat &amp; Ketentuan</a> kami
