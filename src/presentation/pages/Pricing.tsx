@@ -90,6 +90,17 @@ export function Pricing() {
 
   return (
     <Layout>
+      <div className="bg-info-subtle text-info-emphasis text-center py-2 px-3 border-bottom border-info-subtle" style={{ fontSize: '0.875rem' }}>
+        <div className="container d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2">
+          <span className="badge bg-info text-dark text-uppercase fw-bold" style={{ fontSize: '0.75rem' }}>
+            Info Kurs
+          </span>
+          <span className="fw-medium">
+            Seluruh transaksi dikonversi otomatis menggunakan kurs live saat ini: 
+            <strong className="text-dark">1 USD = Rp 16.500</strong>
+          </span>
+        </div>
+      </div>
       <div className="w-100" style={{ backgroundColor: "var(--color-background)" }}>
         {/* Hero Section */}
         <section className="py-5 text-center position-relative overflow-hidden">
